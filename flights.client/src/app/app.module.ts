@@ -6,14 +6,19 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { SearchFlightsComponent } from './search-flights/search-flights.component';
 import { RouterModule } from '@angular/router';
+import { BookFlightComponent } from './book-flight/book-flight.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SearchFlightsComponent
+    SearchFlightsComponent,
+    BookFlightComponent
   ],
   imports: [
-    BrowserModule, HttpClientModule, AppRoutingModule, RouterModule.forRoot([{ path: 'search', component: SearchFlightsComponent, pathMatch: 'full' }])
+    BrowserModule, HttpClientModule, AppRoutingModule, RouterModule.forRoot([{ path: '', component: SearchFlightsComponent, pathMatch: 'full' },
+      { path: 'search', component: SearchFlightsComponent },
+      { path: 'book-flight/:flightId', component: BookFlightComponent, pathMatch: 'full' }
+    ])
   ],
   providers: [],
   bootstrap: [AppComponent]
