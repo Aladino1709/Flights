@@ -14,12 +14,14 @@ export class SearchFlightsComponent implements OnInit {
     this.search();
   }
   search() {
-    this.flightService.searchFlight(this.searchResult)
+    this.flightService.searchFlight()
       .subscribe(response => this.searchResult = response,
         this.handleError)
   }
 
   private handleError(err: any) {
+    if (err.status == 404)
+      alert('Flight not Found !')
     console.log("Response Error. Status: ", err.status)
     console.log("Response Error. Status Text: ", err.statusText)
     console.log(err)
