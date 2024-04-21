@@ -2,7 +2,7 @@
 
 using Microsoft.AspNetCore.Mvc;
 
-namespace Flights.Controllers
+namespace Flights.Server.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -71,23 +71,23 @@ namespace Flights.Controllers
 
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [ProducesResponseType(typeof(IEnumerable< FlightRm>), 200)]
+        [ProducesResponseType(typeof(IEnumerable<FlightRm>), 200)]
         [HttpGet]
         public IEnumerable<FlightRm> Search()
         => flights;
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [ProducesResponseType(typeof(FlightRm),200)]
-      
+        [ProducesResponseType(typeof(FlightRm), 200)]
+
         [HttpGet("{id}")]
         public ActionResult<FlightRm> Find(Guid id)
         {
-            var flight= flights.SingleOrDefault(f => f.Id == id);
-            if(flight == null)
+            var flight = flights.SingleOrDefault(f => f.Id == id);
+            if (flight == null)
                 return NotFound();
             return Ok(flight);
-        
+
         }
     }
 }
