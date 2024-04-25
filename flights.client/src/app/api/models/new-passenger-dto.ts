@@ -2,7 +2,7 @@
 /* eslint-disable */
 export interface NewPassengerDto {
   email?: string | null;
-  firsname?: string | null;
+  firstname?: string | null;
   gender?: boolean;
   lastname?: string | null;
 }

@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "css-to-string-loader": "^0.1.3"
+  }
+}

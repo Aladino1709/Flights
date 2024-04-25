@@ -1,4 +1,5 @@
-﻿using Flights.Server.ReadModels;
+﻿using Flights.Server.Dtos;
+using Flights.Server.ReadModels;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -64,6 +65,8 @@ namespace Flights.Server.Controllers
                     random.Next(1, 853))
             };
 
+        private static IList<Bookdto> bookings= new List<Bookdto>();
+
         public FlightController(ILogger<FlightController> logger)
         {
             _logger = logger;
@@ -87,6 +90,23 @@ namespace Flights.Server.Controllers
             if (flight == null)
                 return NotFound();
             return Ok(flight);
+
+        }
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(FlightRm), 200)]
+        public IActionResult Book(Bookdto dto)
+        {
+            System.Diagnostics.Debug.WriteLine($"booking a new flight to { dto.PassengerEmail }");
+            var flightExist=flights.Any(f => f.Id == dto.FlightId);
+            if (flightExist)
+            {
+                bookings.Add(dto);
+                return CreatedAtAction("Find", new { id = dto.FlightId }, new { id = dto.FlightId });
+            }
+            return NotFound();
 
         }
     }

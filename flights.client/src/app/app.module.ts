@@ -8,20 +8,25 @@ import { SearchFlightsComponent } from './search-flights/search-flights.componen
 import { RouterModule } from '@angular/router';
 import { BookFlightComponent } from './book-flight/book-flight.component';
 import { RegisterPassengerComponent } from './register-passenger/register-passenger.component';
+import { MyBookingsComponent } from './my-bookings/my-bookings.component';
+import { NavMenuComponent } from './nav-menu/nav-menu.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SearchFlightsComponent,
     BookFlightComponent,
-    RegisterPassengerComponent
+    RegisterPassengerComponent,
+    MyBookingsComponent,
+    NavMenuComponent,
   ],
   imports: [
     BrowserModule, HttpClientModule, AppRoutingModule, FormsModule, ReactiveFormsModule, RouterModule.forRoot([
       { path: '', component: SearchFlightsComponent, pathMatch: 'full' },
       { path: 'search', component: SearchFlightsComponent },
       { path: 'book-flight/:flightId', component: BookFlightComponent, pathMatch: 'full' },
-      { path: 'register-passenger', component: RegisterPassengerComponent }
+      { path: 'register-passenger', component: RegisterPassengerComponent },
+      { path: 'my-booking', component: MyBookingsComponent }
     ])
   ],
   providers: [],

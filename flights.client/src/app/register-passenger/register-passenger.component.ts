@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { PassengerService } from './../api/services/passenger.service';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
+import { AuthService } from './../auth/auth.service'
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'app-register-passenger',
@@ -9,12 +11,16 @@ import { FormBuilder } from '@angular/forms';
 })
 export class RegisterPassengerComponent implements OnInit {
 
-  constructor(private passengerService: PassengerService,
-    private fb: FormBuilder) { }
+  constructor(
+    private passengerService: PassengerService,
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) { }
 
   form = this.fb.group({
     email: [''],
-    firstName: [''],
+    firstName: new FormControl,
     lastName: [''],
     isFemale: [true]
   })
@@ -26,7 +32,25 @@ export class RegisterPassengerComponent implements OnInit {
     console.log("Form Values:", this.form.value);
 
     this.passengerService.registerPassenger({ body: this.form.value })
-      .subscribe(_ => console.log("form posted to server"))
-  }
+      .subscribe(this.login, console.error )
 
+  }
+  checkPassenger() {
+    const params = { email: this.form.get('email')!.value! }
+    this.passengerService
+     .findPassenger(params).subscribe(
+      this.login
+ ,
+        e => {
+          if (e.status!=404)
+            console.error(e) }
+         )
+  
+    
+
+  }
+  private login= ()=>{
+    this.authService.loginUser({ email: this.form.get('email')!.value! })
+    this.router.navigate(['/search'])
+  }
 }
