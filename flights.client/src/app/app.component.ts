@@ -11,7 +11,7 @@ interface WeatherForecast {
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['../fontawesome-free/css/fontawesome.css']
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
   

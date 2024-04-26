@@ -4,6 +4,7 @@
     <div class="form-floating">
       <input (blur)="checkPassenger()" formControlName="email" placeholder="Email" class="form-control" type="text" />
       <label for="email">Email</label>
+      <div class="invalid-feedback d-block" *ngIf="email.invalid &&(email.touched||email.dirty)"> enter a valid email please</div>
 
     </div>
     <div class="d-grid gap-3">
@@ -12,13 +13,15 @@
 
         <input  formControlName="firstName"class="form-control" type="text" id="firstName" placeholder="First Name" />
         <label class="form-label" for="firstName">First Name</label>
+        <div class="invalid-feedback d-block" *ngIf="firstName.invalid &&(firstName.touched||firstName.dirty)"> enter a valid name please</div>
 
       </div>
-
+       
       <div class="form-floating">
 
         <input formControlName="lastName" placeholder="Last Name" class="form-control" id="lastName" type="text" />
         <label class="form-label" for="lastName">Last Name</label>
+        <div class="invalid-feedback d-block" *ngIf="lastName.invalid &&(lastName.touched||lastName.dirty)"> enter a valid name please</div>
 
       </div>
 

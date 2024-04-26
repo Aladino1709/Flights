@@ -1,6 +1,11 @@
-﻿namespace Flights.Server.Dtos
+﻿using System.ComponentModel.DataAnnotations ;
+namespace Flights.Server.Dtos
 {
     public record Bookdto
-    (Guid FlightId, string PassengerEmail,byte Numberofseats);
+    (
+        [Required]Guid FlightId, 
+        [Required][EmailAddress][MinLength(3)]string PassengerEmail,
+        [Required][Range(1,254)]byte Numberofseats
+        );
     
 }
