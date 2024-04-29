@@ -2,7 +2,7 @@
 {
     public record Booking
     (
-        Guid FlightId, 
+       
         string PassengerEmail,
         byte Numberofseats
         

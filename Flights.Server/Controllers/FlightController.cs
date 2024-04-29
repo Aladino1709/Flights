@@ -1,4 +1,5 @@
 ﻿using Flights.Server.Domain.Entities;
+using Flights.Server.Domain.Error;
 using Flights.Server.Dtos;
 using Flights.Server.ReadModels;
 
@@ -21,7 +22,7 @@ namespace Flights.Server.Controllers
                 random.Next(90, 5000).ToString(),
                 new TimePlace("Los Angeles",DateTime.Now.AddHours(random.Next(1, 3))),
                 new TimePlace("Istanbul",DateTime.Now.AddHours(random.Next(4, 10))),
-                    random.Next(1, 853)),
+                    2),
         new (   Guid.NewGuid(),
                 "Deutsche BA",
                 random.Next(90, 5000).ToString(),
@@ -123,15 +124,15 @@ namespace Flights.Server.Controllers
 
             System.Diagnostics.Debug.WriteLine($"booking a new flight to {dto.PassengerEmail}");
             var flight = flights.SingleOrDefault(f => f.Id == dto.FlightId);
-            if (flight != null)
-            {
-                flight.bookings.Add(new Booking(
-                    dto.FlightId,
-                    dto.PassengerEmail,
-                    dto.Numberofseats));
-                return CreatedAtAction("Find", new { id = dto.FlightId }, new { id = dto.FlightId });
-            }
-            return NotFound();
+            if (flight == null) 
+                return NotFound();
+            var error = flight.MakeBooking(dto.PassengerEmail, dto.Numberofseats);
+               if(error is OverBookError)
+                return Conflict(new { message = " requested number of seats exceeds the flight's remaining number of seats" });
+            return CreatedAtAction("Find", new { id = dto.FlightId }, new { id = dto.FlightId });
+            
+            
+           
         }
     }
 }
