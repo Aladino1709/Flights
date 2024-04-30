@@ -1,10 +1,5 @@
-﻿using Flights.Server.Controllers;
-using Flights.Server.Domain.Entities;
-using Flights.Server.Domain.Error;
-using Flights.Server.ReadModels;
-
+﻿using Flights.Server.Domain.Error;
 namespace Flights.Server.Domain.Entities
-
 {
     public record Flight(
         Guid Id,
