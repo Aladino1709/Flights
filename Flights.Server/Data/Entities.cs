@@ -1,11 +1,21 @@
 ﻿using Flights.Server.Domain.Entities;
-using System;
-
+using Microsoft.EntityFrameworkCore;
 namespace Flights.Server.Data
 {
-    public class Entities
-    {   static  Random random = new Random();
-      public IList<Passenger> Passengers = new List<Passenger>();
-       public List<Flight> Flights = new List<Flight>() { };
+    public class Entities: DbContext
+    { 
+      public DbSet<Passenger> Passengers =>Set<Passenger>();
+       public DbSet<Flight> Flights =>Set<Flight>() ;
+        public Entities(DbContextOptions options):base(options) 
+        {
+                
+        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Passenger>().HasKey(k=>k.Email);
+           
+            modelBuilder.Entity<Flight>().OwnsOne(f => f.Departure);
+            modelBuilder.Entity<Flight>().OwnsOne(f => f.Arrival);
+        }
     }
 }

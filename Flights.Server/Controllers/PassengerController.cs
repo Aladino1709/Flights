@@ -29,6 +29,7 @@ namespace Flights.Server.Controllers
                 dto.Firstname
                 ,dto.Lastname
                 ,dto.Gender));
+            _entities.SaveChanges();
             return CreatedAtAction ("Find",new {email=dto.Email},new { email = dto.Email });
         }
 

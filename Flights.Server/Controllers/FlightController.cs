@@ -80,6 +80,7 @@ namespace Flights.Server.Controllers
             var error = flight.MakeBooking(dto.PassengerEmail, dto.Numberofseats);
                if(error is OverBookError)
                 return Conflict(new { message = " requested number of seats exceeds the flight's remaining number of seats" });
+               _entities.SaveChanges();
             return CreatedAtAction("Find", new { id = dto.FlightId }, new { id = dto.FlightId });
             
             
