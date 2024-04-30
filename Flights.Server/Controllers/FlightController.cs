@@ -5,6 +5,7 @@ using Flights.Server.Dtos;
 using Flights.Server.ReadModels;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Flights.Server.Controllers
 {
@@ -14,15 +15,11 @@ namespace Flights.Server.Controllers
     {
         
         private readonly Entities _entities;
+             
 
-       
-
-
-
-        
-        public FlightController(Entities Entities)
+         public FlightController(Entities Entities)
         {
-            this._entities = Entities;
+            _entities = Entities;
         }
 
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -80,7 +77,15 @@ namespace Flights.Server.Controllers
             var error = flight.MakeBooking(dto.PassengerEmail, dto.Numberofseats);
                if(error is OverBookError)
                 return Conflict(new { message = " requested number of seats exceeds the flight's remaining number of seats" });
-               _entities.SaveChanges();
+
+            try
+            {
+                _entities.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException e) 
+            {
+                return Conflict(new { message = " An error occurred while booking please try again" });
+            }
             return CreatedAtAction("Find", new { id = dto.FlightId }, new { id = dto.FlightId });
             
             

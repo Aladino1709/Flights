@@ -13,7 +13,7 @@ namespace Flights.Server.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Passenger>().HasKey(k=>k.Email);
-           
+           modelBuilder.Entity<Flight>().Property(f=>f.RemainingNumberOfSeats).IsConcurrencyToken();
             modelBuilder.Entity<Flight>().OwnsOne(f => f.Departure);
             modelBuilder.Entity<Flight>().OwnsOne(f => f.Arrival);
         }
