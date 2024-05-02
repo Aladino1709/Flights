@@ -1,4 +1,6 @@
 ﻿using Flights.Server.Domain.Error;
+using Flights.Server.Dtos;
+using Microsoft.AspNetCore.Mvc;
 namespace Flights.Server.Domain.Entities
 {
     public class Flight
@@ -26,7 +28,7 @@ namespace Flights.Server.Domain.Entities
                 
         }
 
-        public IList<Booking> bookings = new List<Booking>();
+        public IList<Booking> Bookings = new List<Booking>();
 
         public object? MakeBooking(string passengerEmail, byte numberOfSeats)
         {
@@ -34,7 +36,7 @@ namespace Flights.Server.Domain.Entities
             if (flight.RemainingNumberOfSeats < numberOfSeats)
                 return new OverBookError();
 
-            flight.bookings.Add(new Booking(
+            flight.Bookings.Add(new Booking(
                     passengerEmail,
                     numberOfSeats));
             flight.RemainingNumberOfSeats -= numberOfSeats;
@@ -42,6 +44,18 @@ namespace Flights.Server.Domain.Entities
 
 
         }
+        public Object? CancelBooking(string passengerEmail,int numberOfSeats) 
+        { 
+
+            var booking=Bookings.FirstOrDefault(b=>b.PassengerEmail.ToLower() == passengerEmail.ToLower()&&
+            b.Numberofseats==numberOfSeats);
+            if (booking == null)
+                return  new NotFoundError();
+            Bookings.Remove(booking);
+            RemainingNumberOfSeats += booking.Numberofseats;
+            return null; 
+        }
+        
 
     }
 }

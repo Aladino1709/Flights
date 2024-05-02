@@ -1,0 +1,17 @@
+[
+  {
+    "flighId": "f0f42977-259f-441d-b4d0-50dbbd357334",
+    "airline": "British Airways",
+    "price": "670",
+    "arrival": {
+      "place": "Vizzola-Ticino",
+      "time": "2024-05-01T22:02:10.6414884+01:00"
+    },
+    "departure": {
+      "place": "Vizzola-Ticino",
+      "time": "2024-05-01T22:02:10.6414884+01:00"
+    },
+    "numberOfBookedSeats": 7,
+    "passengerEmail": "al@sn"
+  }
+]

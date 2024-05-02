@@ -6,17 +6,16 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { BookDto } from '../../models/book-dto';
-import { FlightRm } from '../../models/flight-rm';
+import { BookingRm } from '../../models/booking-rm';
 
-export interface BookFlight$Params {
-      body?: BookDto
+export interface ListBooking$Params {
+  email: string;
 }
 
-export function bookFlight(http: HttpClient, rootUrl: string, params?: BookFlight$Params, context?: HttpContext): Observable<StrictHttpResponse<FlightRm>> {
-  const rb = new RequestBuilder(rootUrl, bookFlight.PATH, 'post');
+export function listBooking(http: HttpClient, rootUrl: string, params: ListBooking$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<BookingRm>>> {
+  const rb = new RequestBuilder(rootUrl, listBooking.PATH, 'get');
   if (params) {
-    rb.body(params.body, 'application/*+json');
+    rb.path('email', params.email, {});
   }
 
   return http.request(
@@ -24,9 +23,9 @@ export function bookFlight(http: HttpClient, rootUrl: string, params?: BookFligh
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<FlightRm>;
+      return r as StrictHttpResponse<Array<BookingRm>>;
     })
   );
 }
 
-bookFlight.PATH = '/Flight';
+listBooking.PATH = '/Booking/{email}';

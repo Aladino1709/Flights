@@ -67,7 +67,7 @@ namespace Flights.Server.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(FlightRm), 200)]
-        public IActionResult Book(Bookdto dto)
+        public IActionResult Book(BookDto dto)
         {
 
             System.Diagnostics.Debug.WriteLine($"booking a new flight to {dto.PassengerEmail}");

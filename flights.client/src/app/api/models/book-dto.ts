@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-export interface Bookdto {
+export interface BookDto {
   flightId?: string;
   numberofseats?: number;
   passengerEmail?: string | null;
