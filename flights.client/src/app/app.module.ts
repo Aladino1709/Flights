@@ -10,6 +10,7 @@ import { BookFlightComponent } from './book-flight/book-flight.component';
 import { RegisterPassengerComponent } from './register-passenger/register-passenger.component';
 import { MyBookingsComponent } from './my-bookings/my-bookings.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
+import { AuthGuard } from './auth/auth.guard';
 
 @NgModule({
   declarations: [
@@ -24,9 +25,9 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
     BrowserModule, HttpClientModule, AppRoutingModule, FormsModule, ReactiveFormsModule, RouterModule.forRoot([
       { path: '', component: SearchFlightsComponent, pathMatch: 'full' },
       { path: 'search', component: SearchFlightsComponent },
-      { path: 'book-flight/:flightId', component: BookFlightComponent, pathMatch: 'full' },
+      { path: 'book-flight/:flightId', component: BookFlightComponent, pathMatch: 'full', canActivate:  [AuthGuard] },
       { path: 'register-passenger', component: RegisterPassengerComponent },
-      { path: 'my-booking', component: MyBookingsComponent }
+      { path: 'my-booking', component: MyBookingsComponent, canActivate: [AuthGuard] }
     ])
   ],
   providers: [],

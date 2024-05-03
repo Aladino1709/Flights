@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PassengerService } from './../api/services/passenger.service';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { AuthService } from './../auth/auth.service'
-import { Router } from '@angular/router'
+import { Router,ActivatedRoute } from '@angular/router'
 
 @Component({
   selector: 'app-register-passenger',
@@ -15,9 +15,11 @@ export class RegisterPassengerComponent implements OnInit {
     private passengerService: PassengerService,
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) { }
 
+  requestedUrl?:string=undefined
   form = this.fb.group({
     email: ['', Validators.compose([Validators.required, Validators.min(3), Validators.email])],
     firstName: ['', Validators.compose([Validators.required, Validators.max(50)])],
@@ -26,6 +28,7 @@ export class RegisterPassengerComponent implements OnInit {
   })
 
   ngOnInit(): void {
+    this.activatedRoute.params.subscribe(p=>this.requestedUrl=p['requestedUrl'])
   }
 
   register() {
@@ -53,7 +56,7 @@ export class RegisterPassengerComponent implements OnInit {
   }
   private login= ()=>{
     this.authService.loginUser({ email: this.form.get('email')!.value! })
-    this.router.navigate(['/search'])
+    this.router.navigate([this.requestedUrl ?? '/search'])
   }
   get email() {
     return this.form.controls.email
