@@ -16,6 +16,7 @@ namespace Flights.Server.Data
            modelBuilder.Entity<Flight>().Property(f=>f.RemainingNumberOfSeats).IsConcurrencyToken();
             modelBuilder.Entity<Flight>().OwnsOne(f => f.Departure);
             modelBuilder.Entity<Flight>().OwnsOne(f => f.Arrival);
+            modelBuilder.Entity<Flight>().OwnsMany(f => f.Bookings);
         }
     }
 }

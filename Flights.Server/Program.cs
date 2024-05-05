@@ -5,8 +5,9 @@ using Microsoft.OpenApi.Models;
 using System;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<Entities>(options => options.UseInMemoryDatabase(databaseName: "Flights"),
-    ServiceLifetime.Singleton);
+builder.Services.AddDbContext<Entities>(options => options.UseSqlServer(
+    builder.Configuration.GetConnectionString("Flights")
+    ));
 
 // Add services to the container.
 
@@ -23,11 +24,14 @@ builder.Services.AddSwaggerGen(config =>
 
 
 
-builder.Services.AddSingleton<Entities>();
+builder.Services.AddScoped<Entities>();
 var app = builder.Build();
 var entities=app.Services.CreateAsyncScope().ServiceProvider.GetService<Entities>();
+entities.Database.EnsureCreated();
 var random = new Random();
-Flight[] flightsToSeed = new Flight[]{
+if (!entities.Flights.Any())
+{
+    Flight[] flightsToSeed = new Flight[]{
         new (   Guid.NewGuid(),
                 "American Airlines",
                 random.Next(90, 5000).ToString(),
@@ -78,11 +82,11 @@ Flight[] flightsToSeed = new Flight[]{
                     random.Next(1, 853))
            };
 
-entities.Flights.AddRange(flightsToSeed);
+    entities.Flights.AddRange(flightsToSeed);
 
-entities.SaveChanges();
+    entities.SaveChanges();
 
-
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

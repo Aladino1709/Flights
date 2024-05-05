@@ -29,7 +29,7 @@ namespace Flights.Server.Controllers
                     f.Id,
                     f.Airline,
                     f.Price.ToString(),
-        new TimePlaceRm(f.Arrival.Place, f.Arrival.Time),
+        new TimePlaceRm(f.Departure.Place, f.Departure.Time),
         new TimePlaceRm(f.Arrival.Place, f.Arrival.Time),
         b.Numberofseats,
         b.PassengerEmail
