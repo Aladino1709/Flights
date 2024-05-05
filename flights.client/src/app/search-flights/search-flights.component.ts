@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FlightService } from '../api/services/flight.service';
 import { FlightRm } from '../api/models/flight-rm';
+import { FormBuilder } from "@angular/forms"
 @Component({
   selector: 'app-search-flights',
   templateUrl: './search-flights.component.html',
@@ -8,13 +9,30 @@ import { FlightRm } from '../api/models/flight-rm';
 })
 export class SearchFlightsComponent implements OnInit {
 
-  constructor(private flightService: FlightService) { }
-  searchResult: FlightRm []=[]
+  constructor(
+    private flightService: FlightService,
+    private formBuilder: FormBuilder
+  ) { }
+  searchResult: FlightRm[] = []
+  searchForm = this.formBuilder.group({
+    from: [''],
+    destination: [''],
+    fromDate: [''],
+    toDate: [''],
+    numberOfPassengers:[1]
+
+  })
   ngOnInit(): void {
-    this.search();
+    
   }
   search() {
-    this.flightService.searchFlight()
+    this.flightService.searchFlight({
+      from: this.searchForm.value.from!,
+      destination: this.searchForm.value.destination!,
+      fromDate: this.searchForm.value.fromDate!,
+      toDate: this.searchForm.value.toDate!,
+      numberOfPassengers: this.searchForm.value.numberOfPassengers!
+    })
       .subscribe(response => this.searchResult = response,
         this.handleError)
   }

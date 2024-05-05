@@ -20,6 +20,7 @@ builder.Services.AddSwaggerGen(config =>
         new OpenApiServer { Description = "Dev", Url = "https://localhost:7133" });
     config.CustomOperationIds(e => $"{e.ActionDescriptor.RouteValues["action"] +
         e.ActionDescriptor.RouteValues["controller"]}");
+    config.DescribeAllParametersInCamelCase();
 });
 
 

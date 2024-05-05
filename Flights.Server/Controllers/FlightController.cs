@@ -26,7 +26,7 @@ namespace Flights.Server.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(IEnumerable<FlightRm>), 200)]
         [HttpGet]
-        public IEnumerable<FlightRm> Search()
+        public IEnumerable<FlightRm> Search([FromQuery]FlightSearchParameters @params)
         {
 
             var readModel = _entities.Flights.Select(flight => new FlightRm(
